@@ -1,2 +1,1 @@
-# vscode-devcontainer
-Visual Studio Code Remote Development Containers
+# Visual Studio Code Remote Development Containers
