@@ -7,10 +7,13 @@ ENV DEBIAN_FRONTEND=noninteractive \
     LC_ALL=en_US.UTF-8
 
 LABEL \
-    org.opencontainers.image.authors="singh.ramanpreet09@gmail.com"
+    org.opencontainers.image.authors="singh.ramanpreet09@gmail.com" \
+    org.opencontainers.image.documentation="https://github.com/singh-ramanpreet/vscode-devcontainers" \
+    org.opencontainers.image.title="latex" \
+    org.opencontainers.image.description="Latex - Visual Studio Code Remote Development Container"
 
 # for historic releases, find mirror from https://www.tug.org/historic/
-ARG TEXLIVE_MIRROR=http://TEXLIVE_MIRROR.ctan.org/systems/texlive/tlnet
+ARG TEXLIVE_MIRROR=http://mirror.ctan.org/systems/texlive/tlnet
 
 RUN \
     # Common packages
