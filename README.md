@@ -2,6 +2,9 @@
 
 1. [Latex](#latex)
 
+### References
+`devcontainer.json`: https://code.visualstudio.com/docs/remote/devcontainerjson-reference
+
 --------------------------------------------------
 
 ## Latex
@@ -22,8 +25,5 @@ Tag|Build|Size|Pulls|Stars|Docker Hub
 
 ```bash
 ```
-
-### References
-`devcontainer.json`: https://code.visualstudio.com/docs/remote/devcontainerjson-reference
 
 --------------------------------------------------
