@@ -1,4 +1,5 @@
 # Visual Studio Code Remote Development Containers
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/singh-ramanpreet/vscode-devcontainers/DockerHub?logo=github)](#) [![Docker Pulls](https://img.shields.io/docker/pulls/singhramanpreet/vscode-devcontainers.svg?logo=docker)](#) [![Docker Stars](https://img.shields.io/docker/stars/singhramanpreet/vscode-devcontainers?logo=docker)](#)
 
 1. [Latex](#latex)
 
@@ -8,9 +9,10 @@
 --------------------------------------------------
 
 ## Latex
-Tag|Build|Size|Pulls|Stars|Dockerfile
----|---|---|---|---|---
-[![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex-2020)](#) | [![GitHub Workflow Status](https://img.shields.io/github/workflow/status/singh-ramanpreet/vscode-devcontainers/DockerHub?logo=github)](#) | [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex-2020?logo=docker)](#) | [![Docker Pulls](https://img.shields.io/docker/pulls/singhramanpreet/vscode-devcontainers.svg?logo=docker)](#) | [![Docker Stars](https://img.shields.io/docker/stars/singhramanpreet/vscode-devcontainers?logo=docker)](#) | [Dockerfile](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2020/latex/Dockerfile)
+Tag  | Status 
+ --- | ---    
+[`latex-latest`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-latest/latex/Dockerfile) -> [`latex-2020-0.1`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2020-0.1/latex/Dockerfile) | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex-latest?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex-latest?logo=docker)](#)
+[`latex-2020-0.1`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2020-0.1/latex/Dockerfile) | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex-2020-0.1?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex-2020-0.1?logo=docker)](#)
 
 ### About Docker Image
    1. Built using `ubuntu` image.
