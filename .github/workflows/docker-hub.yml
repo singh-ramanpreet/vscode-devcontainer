@@ -14,6 +14,7 @@ jobs:
     outputs:
       IMAGE_NAME: ${{ steps.image.outputs.IMAGE_NAME }}
       DOCKERFILE: ${{ steps.dockerfile.outputs.DOCKERFILE }}
+      VERSION: ${{ steps.dockerfile.outputs.VERSION }}
     steps:
       - uses: actions/checkout@v2
       - name: Get image name
@@ -22,13 +23,15 @@ jobs:
           echo "IMAGE_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
           echo "::set-output name=IMAGE_NAME::${GITHUB_REF##*/}"
 
-      - name: Get Dockerfile name
+      - name: Get Dockerfile name and build version arg
         id: dockerfile
         run: |
           echo "DOCKERFILE=${IMAGE_NAME%%-*}/Dockerfile" >> $GITHUB_ENV
           echo "::set-output name=DOCKERFILE::${IMAGE_NAME%%-*}/Dockerfile"
+          echo "VERSION=$(echo $IMAGE_NAME | cut -d - -f2)" >> $GITHUB_ENV
+          echo "::set-output name=VERSION::$(echo $IMAGE_NAME | cut -d - -f2)"
 
-      - name: Build image
+      - name: Check file and command
         run: |
           echo "====================="
           echo "Dockerfile content"
@@ -36,7 +39,7 @@ jobs:
           echo ""
           echo "====================="
           echo "Build Command"
-          echo docker build . --file $DOCKERFILE --tag $IMAGE_NAME
+          echo docker build . --file $DOCKERFILE --tag $IMAGE_NAME --build-arg VERSION=$VERSION
           echo "====================="
 
 
@@ -53,9 +56,10 @@ jobs:
         run: |
           echo "IMAGE_NAME=${{ needs.prepare.outputs.IMAGE_NAME }}" >> $GITHUB_ENV
           echo "DOCKERFILE=${{ needs.prepare.outputs.DOCKERFILE }}" >> $GITHUB_ENV
+          echo "VERSION=${{ needs.prepare.outputs.VERSION }}" >> $GITHUB_ENV
 
       - name: Build image
-        run: docker build . --file $DOCKERFILE --tag $IMAGE_NAME
+        run: docker build . --file $DOCKERFILE --tag $IMAGE_NAME --build-arg VERSION=$VERSION
 
       - name: Log into registry
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u $DOCKERHUB_USERNAME --password-stdin
@@ -66,5 +70,13 @@ jobs:
 
           echo IMAGE_ID=$IMAGE_ID
 
+          IMAGE_NAME_LATEST=$(echo $IMAGE_NAME | cut -d - -f1)
+          IMAGE_ID_LATEST=$(echo $IMAGE_ID | sed -e 's,\(.*\):.*,\1,g'):$IMAGE_NAME_LATEST
+
+          echo IMAGE_ID_LATEST=$IMAGE_ID_LATEST
+
           docker tag $IMAGE_NAME $IMAGE_ID
+          docker tag $IMAGE_NAME $IMAGE_ID_LATEST
+
           docker push $IMAGE_ID
+          docker push $IMAGE_ID_LATEST

@@ -1,3 +1,5 @@
+ARG VERSION
+
 FROM ubuntu:20.04
 
 # non interactive frontend for locales
