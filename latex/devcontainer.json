@@ -1,6 +1,6 @@
 {
     "name": "latex",
-    "image": "singhramanpreet/vscode-devcontainers:latex-latest",
+    "image": "singhramanpreet/vscode-devcontainers:latex",
     // uncomment and edit below to install missing packages
     //"postCreateCommand": [
     //    "sudo",
