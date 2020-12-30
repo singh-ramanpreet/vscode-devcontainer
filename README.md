@@ -11,7 +11,7 @@
 ## Latex
 Tag  | Status 
  --- | ---    
-[`latex-latest`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-latest/latex/Dockerfile) -> [`latex-2020-0.1`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2020-0.1/latex/Dockerfile) | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex-latest?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex-latest?logo=docker)](#)
+`latex` -> [`latex-2020-0.1`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2020-0.1/latex/Dockerfile) | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex?logo=docker)](#)
 [`latex-2020-0.1`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2020-0.1/latex/Dockerfile) | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex-2020-0.1?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex-2020-0.1?logo=docker)](#)
 
 ### About Docker Image
@@ -25,7 +25,15 @@ Tag  | Status
 
 ### Setup
 
-```bash
-```
+   1. Get template, run from `latex` project directory
+
+   ```bash
+   # from latex project dir
+   curl https://raw.githubusercontent.com/singh-ramanpreet/vscode-devcontainers/main/latex/devcontainer.json \
+   --create-dirs -o .devcontainer/devcontainer.json
+   ```
+
+   2. Open `latex` directory/workspace in `vscode`, if you have `vscode` remote container extension installed, it will prompt you to re-open workspace in container or you can give command `reopen in container`.
+   3. If you change `devcontainer.json` you will to do `rebuild and reopen in container` for changes to take effect.
 
 --------------------------------------------------
