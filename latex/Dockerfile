@@ -15,7 +15,8 @@ LABEL \
     org.opencontainers.image.description="Latex - Visual Studio Code Remote Development Container"
 
 # for historic releases, find mirror from https://www.tug.org/historic/
-ARG TEXLIVE_MIRROR=http://mirror.ctan.org/systems/texlive/tlnet
+ARG TEXLIVE_MIRROR=ftp://tug.org/historic/systems/texlive/2020/tlnet-final
+#ARG TEXLIVE_MIRROR=http://mirror.ctan.org/systems/texlive/tlnet
 
 RUN \
     # Common packages
