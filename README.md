@@ -11,10 +11,11 @@
 ## Latex
 Tag  | Status 
  --- | ---    
-`latex` -> [`latex-2021-0.1`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2020-0.1/latex/Dockerfile) | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex?logo=docker)](#)
+`latex` -> `latex-2021-0.2`
+[`latex-2021-0.2`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2021-0.2/latex/Dockerfile) | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex-2021-0.2?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex-2021-0.2?logo=docker)](#)
 [`latex-2021-0.1`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2021-0.1/latex/Dockerfile) | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex-2021-0.1?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex-2021-0.1?logo=docker)](#)
 [`latex-2020-final`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2020-final/latex/Dockerfile) | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex-2020-final?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex-2020-final?logo=docker)](#)
-[`latex-2020-0.1`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2020-0.1/latex/Dockerfile) | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/singhramanpreet/vscode-devcontainers/latex-2020-0.1?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/singhramanpreet/vscode-devcontainers/latex-2020-0.1?logo=docker)](#)
+[`latex-2020-0.1`](https://github.com/singh-ramanpreet/vscode-devcontainers/blob/latex-2020-0.1/latex/Dockerfile) | Deleted
 
 ### About Docker Image
    1. Built using `ubuntu` image.
