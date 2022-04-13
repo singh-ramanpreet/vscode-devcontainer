@@ -1,82 +1,90 @@
 name: DockerHub
 
 on:
-  push:
-    tags:
-      - '**'
+  workflow_dispatch:
+    inputs:
+      directory:
+        type: text
+        required: true
+      version:
+        type: text
+        required: true
+      tag:
+        type: text
+        required: true
+      isLatest:
+        type: boolean
+        required: true
+        default: true
+      additionalDockerArgs:
+        type: text
+        required: false
+      dockerhubUsername:
+        type: text
+        required: true
+        default: "singhramanpreet"
+      dockerhubRepo:
+        type: text
+        required: true
+        default: "vscode-devcontainers"
 env:
-  DOCKERHUB_USERNAME: singhramanpreet
-  DOCKERHUB_REPO: vscode-devcontainers
+  DOCKERHUB_USERNAME: ${{ github.event.inputs.dockerhubUsername }}
+  DOCKERHUB_REPO: ${{ github.event.inputs.dockerhubRepo }}
 
 jobs:
-  prepare:
+  build-and-publish:
     runs-on: ubuntu-latest
-    outputs:
-      IMAGE_NAME: ${{ steps.image.outputs.IMAGE_NAME }}
-      DOCKERFILE: ${{ steps.dockerfile.outputs.DOCKERFILE }}
-      VERSION: ${{ steps.dockerfile.outputs.VERSION }}
     steps:
-      - uses: actions/checkout@v2
-      - name: Get image name
-        id: image
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ github.event.inputs.tag }}
+          
+      - name: Set vars
         run: |
-          echo "IMAGE_NAME=${GITHUB_REF##*/}" >> $GITHUB_ENV
-          echo "::set-output name=IMAGE_NAME::${GITHUB_REF##*/}"
-
-      - name: Get Dockerfile name and build version arg
-        id: dockerfile
-        run: |
-          echo "DOCKERFILE=${IMAGE_NAME%%-*}/Dockerfile" >> $GITHUB_ENV
-          echo "::set-output name=DOCKERFILE::${IMAGE_NAME%%-*}/Dockerfile"
-          echo "VERSION=$(echo $IMAGE_NAME | cut -d - -f2)" >> $GITHUB_ENV
-          echo "::set-output name=VERSION::$(echo $IMAGE_NAME | cut -d - -f2)"
-
-      - name: Check file and command
-        run: |
-          echo "====================="
-          echo "Dockerfile content"
-          cat $DOCKERFILE
-          echo ""
-          echo "====================="
-          echo "Build Command"
-          echo docker build . --file $DOCKERFILE --tag $IMAGE_NAME --build-arg VERSION=$VERSION
-          echo "====================="
-
-
-  build-push:
-    needs: prepare
-
-    runs-on: ubuntu-latest
-    if: github.event_name == 'push'
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Get names from build job
-        run: |
-          echo "IMAGE_NAME=${{ needs.prepare.outputs.IMAGE_NAME }}" >> $GITHUB_ENV
-          echo "DOCKERFILE=${{ needs.prepare.outputs.DOCKERFILE }}" >> $GITHUB_ENV
-          echo "VERSION=${{ needs.prepare.outputs.VERSION }}" >> $GITHUB_ENV
-
+          echo "IMAGE_NAME=${{ github.event.inputs.directory }}" >> $GITHUB_ENV
+          echo "DOCKERFILE=${{ github.event.inputs.directory }}/Dockerfile" >> $GITHUB_ENV
+          echo "VERSION=${{ github.event.inputs.version }}" >> $GITHUB_ENV
+          echo "TAG=${{ github.event.inputs.tag }}" >> $GITHUB_ENV
+          echo "ARGS=${{ github.event.inputs.additionalDockerArgs }}" >> $GITHUB_ENV
+          echo "IS_LATEST=${{ github.event.inputs.isLatest }}" >> $GITHUB_ENV
+          echo "REPO_URL=https://github.com/${{ github.repository }}">> $GITHUB_ENV
+          
       - name: Build image
-        run: docker build . --file $DOCKERFILE --tag $IMAGE_NAME --build-arg VERSION=$VERSION
-
+        run: echo docker build . --file $DOCKERFILE --tag $IMAGE_NAME $ARGS
+        
       - name: Log into registry
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u $DOCKERHUB_USERNAME --password-stdin
-
+        
       - name: Push image
         run: |
-          IMAGE_ID=$DOCKERHUB_USERNAME/$DOCKERHUB_REPO:$IMAGE_NAME
-
-          echo IMAGE_ID=$IMAGE_ID
-
-          IMAGE_NAME_LATEST=$(echo $IMAGE_NAME | cut -d - -f1)
-          IMAGE_ID_LATEST=$(echo $IMAGE_ID | sed -e 's,\(.*\):.*,\1,g'):$IMAGE_NAME_LATEST
-
-          echo IMAGE_ID_LATEST=$IMAGE_ID_LATEST
-
-          docker tag $IMAGE_NAME $IMAGE_ID
-          docker tag $IMAGE_NAME $IMAGE_ID_LATEST
-
-          docker push $IMAGE_ID
-          docker push $IMAGE_ID_LATEST
+          IMAGE_ID_LATEST=$DOCKERHUB_USERNAME/$DOCKERHUB_REPO:$IMAGE_NAME
+          IMAGE_ID_VERSION=$DOCKERHUB_USERNAME/$DOCKERHUB_REPO:$IMAGE_NAME-$VERSION
+          echo "IMAGE_ID_LATEST=$IMAGE_ID_LATEST" >> $GITHUB_ENV
+          echo "IMAGE_ID_VERSION=$IMAGE_ID_VERSION" >> $GITHUB_ENV
+          
+          echo $IMAGE_ID_LATEST
+          echo $IMAGE_ID_VERSION
+          
+          echo docker tag $IMAGE_NAME $IMAGE_ID_VERSION
+          echo docker tag $IMAGE_NAME $IMAGE_ID_LATEST
+          
+          echo docker push $IMAGE_ID_VERSION
+          if $IS_LATEST; then
+            echo docker push $IMAGE_ID_LATEST
+          fi
+          
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+      - name: Update README.md
+        run: |
+          echo "\`${IMAGE_ID_VERSION}\` | [\`$IMAGE_NAME-$VERSION\`](${REPO_URL}/blob/${TAG}/${IMAGE_NAME}/Dockerfile) | \`${TAG}\` | [![Docker Image Version (tag latest semver)](https://img.shields.io/docker/v/$DOCKERHUB_USERNAME/$DOCKERHUB_REPO/$IMAGE_NAME-$VERSION?logo=docker)](#) [![Docker Image Size (tag)](https://img.shields.io/docker/image-size/$DOCKERHUB_USERNAME/$DOCKERHUB_REPO/$IMAGE_NAME-$VERSION?logo=docker)](#)" >> ${IMAGE_NAME}/README.md
+          
+          if $IS_LATEST; then
+            sed -E -e 's,\|.*(\`latest\`).*\|,\| \1 -> \`${TAG}\` \|,' -i ${IMAGE_NAME}/README.md
+          fi
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add ${IMAGE_NAME}/README.md
+          git commit -m "Update ${IMAGE_NAME}/README.md"
+          git push

@@ -1,5 +1,3 @@
-ARG VERSION
-
 FROM ubuntu:20.04
 
 # non interactive frontend for locales
@@ -15,7 +13,7 @@ LABEL \
     org.opencontainers.image.description="Latex - Visual Studio Code Remote Development Container"
 
 # for historic releases, find mirror from https://www.tug.org/historic/
-#ARG TEXLIVE_MIRROR=ftp://tug.org/historic/systems/texlive/2020/tlnet-final
+#ARG TEXLIVE_MIRROR=ftp://tug.org/historic/systems/texlive/<YEAR>/tlnet-final
 ARG TEXLIVE_MIRROR=http://mirror.ctan.org/systems/texlive/tlnet
 
 RUN \
