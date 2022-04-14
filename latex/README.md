@@ -1,3 +1,3 @@
 Image | Dockerfile | Release | Status
 ----- | ---------- | ------- | ------
-`singhramanpreet/vscode-devcontainers:latex` | | `latest` -> `v0.1` | 
+`singhramanpreet/vscode-devcontainers:latex` | | `latest` -> `v0.0` | 
