@@ -50,7 +50,7 @@ jobs:
           echo "REPO_URL=https://github.com/${{ github.repository }}">> $GITHUB_ENV
           
       - name: Build image
-        run: echo docker build . --file $DOCKERFILE --tag $IMAGE_NAME $ARGS
+        run: docker build . --file $DOCKERFILE --tag $IMAGE_NAME $ARGS
         
       - name: Log into registry
         run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u $DOCKERHUB_USERNAME --password-stdin
@@ -65,12 +65,12 @@ jobs:
           echo $IMAGE_ID_LATEST
           echo $IMAGE_ID_VERSION
           
-          echo docker tag $IMAGE_NAME $IMAGE_ID_VERSION
-          echo docker tag $IMAGE_NAME $IMAGE_ID_LATEST
+          docker tag $IMAGE_NAME $IMAGE_ID_VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID_LATEST
           
-          echo docker push $IMAGE_ID_VERSION
+          docker push $IMAGE_ID_VERSION
           if $IS_LATEST; then
-            echo docker push $IMAGE_ID_LATEST
+            docker push $IMAGE_ID_LATEST
           fi
           
       - uses: actions/checkout@v3
